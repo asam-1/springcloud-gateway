@@ -16,4 +16,14 @@ public class ProxyServiceApplication {
         SpringApplication.run(ProxyServiceApplication.class, args);
     }
 
+    @Bean
+    RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
+        return builder.routes()
+                .route(r -> r.path("/products/**")
+                        .uri("http://localhost:8082/"))
+                .route(r -> r.path("/customers/**")
+                        .uri("http://localhost:8081/"))
+                .build();
+    }
+
 }
