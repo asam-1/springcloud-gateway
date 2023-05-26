@@ -20,8 +20,12 @@ public class ProxyServiceApplication {
     RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(r -> r.path("/products/**")
+                        .filters(f -> f.addRequestHeader("custom-product-request-header", "custom-product-request-header")
+                                .addResponseHeader("custom-product-response-header", "custom-product-response-header"))
                         .uri("http://localhost:8082/"))
                 .route(r -> r.path("/customers/**")
+                        .filters(f -> f.addRequestHeader("custom-customer-request-header", "custom-customer-request-header")
+                                .addResponseHeader("custom-customer-response-header", "custom-customer-response-header"))
                         .uri("http://localhost:8081/"))
                 .build();
     }
