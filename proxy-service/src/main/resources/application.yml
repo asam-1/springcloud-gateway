@@ -1,7 +1,31 @@
 spring:
+  application:
+    name: gateway-service
   cloud:
-    discovery:
-      enabled: false
+    gateway:
+      routes:
+        - id: customerModule
+          uri: lb://customers-service
+          predicates:
+            - Path=/customers/**
+        - id: productModule
+          uri: lb://products-service
+          predicates:
+            - Path=/products/**
+#  cloud:
+#    discovery:
+#      enabled: false
 server:
   port: 8888
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+  instance:
+    hostname: localhost
+    eureka:
+      instance:
+        prefer-ip-address=true:
 
